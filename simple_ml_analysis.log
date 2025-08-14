@@ -1,0 +1,58 @@
+2025-08-14 11:39:07,084 - INFO - Starting simplified ML analysis...
+2025-08-14 11:39:07,085 - INFO - Loading data for symbols: ['SPY', 'QQQ', 'AAPL', 'MSFT', 'NVDA']
+2025-08-14 11:39:07,129 - ERROR - No data loaded. Please run fetch_real_data.py first.
+2025-08-14 11:39:24,243 - INFO - Starting simplified ML analysis...
+2025-08-14 11:39:24,243 - INFO - Loading data for symbols: ['SPY', 'QQQ', 'AAPL', 'MSFT', 'NVDA']
+2025-08-14 11:39:24,290 - INFO - Loaded data for 5 symbols
+2025-08-14 11:39:24,290 - INFO - Training volatility models...
+2025-08-14 11:39:24,290 - INFO -   Training volatility model for SPY
+2025-08-14 11:39:24,480 - INFO -     ✓ SPY volatility model - RMSE: 0.1133, R²: 0.9708
+2025-08-14 11:39:24,480 - INFO -   Training volatility model for QQQ
+2025-08-14 11:39:24,668 - INFO -     ✓ QQQ volatility model - RMSE: 0.1144, R²: 0.8954
+2025-08-14 11:39:24,668 - INFO -   Training volatility model for AAPL
+2025-08-14 11:39:24,856 - INFO -     ✓ AAPL volatility model - RMSE: 1.5487, R²: 0.4249
+2025-08-14 11:39:24,856 - INFO -   Training volatility model for MSFT
+2025-08-14 11:39:25,073 - INFO -     ✓ MSFT volatility model - RMSE: 1.8094, R²: 0.2048
+2025-08-14 11:39:25,073 - INFO -   Training volatility model for NVDA
+2025-08-14 11:39:25,277 - INFO -     ✓ NVDA volatility model - RMSE: 0.4767, R²: 0.9062
+2025-08-14 11:39:25,277 - INFO - Generating strategy signals...
+2025-08-14 11:39:25,277 - INFO -   Generating signals for SPY
+2025-08-14 11:39:25,277 - INFO -     ✓ Generated signals for SPY
+2025-08-14 11:39:25,277 - INFO -   Generating signals for QQQ
+2025-08-14 11:39:25,277 - INFO -     ✓ Generated signals for QQQ
+2025-08-14 11:39:25,277 - INFO -   Generating signals for AAPL
+2025-08-14 11:39:25,277 - INFO -     ✓ Generated signals for AAPL
+2025-08-14 11:39:25,277 - INFO -   Generating signals for MSFT
+2025-08-14 11:39:25,277 - INFO -     ✓ Generated signals for MSFT
+2025-08-14 11:39:25,277 - INFO -   Generating signals for NVDA
+2025-08-14 11:39:25,277 - INFO -     ✓ Generated signals for NVDA
+2025-08-14 11:39:25,277 - INFO - Performing risk analysis...
+2025-08-14 11:39:25,277 - INFO -   Analyzing risk for SPY
+2025-08-14 11:39:25,279 - INFO -     ✓ Risk analysis completed for SPY
+2025-08-14 11:39:25,279 - INFO -   Analyzing risk for QQQ
+2025-08-14 11:39:25,280 - INFO -     ✓ Risk analysis completed for QQQ
+2025-08-14 11:39:25,280 - INFO -   Analyzing risk for AAPL
+2025-08-14 11:39:25,280 - INFO -     ✓ Risk analysis completed for AAPL
+2025-08-14 11:39:25,280 - INFO -   Analyzing risk for MSFT
+2025-08-14 11:39:25,281 - INFO -     ✓ Risk analysis completed for MSFT
+2025-08-14 11:39:25,281 - INFO -   Analyzing risk for NVDA
+2025-08-14 11:39:25,281 - INFO -     ✓ Risk analysis completed for NVDA
+2025-08-14 11:39:25,281 - INFO - Generating comprehensive analysis results...
+2025-08-14 11:39:25,281 - INFO - Saving results...
+2025-08-14 11:39:25,282 - INFO - ============================================================
+2025-08-14 11:39:25,282 - INFO - SIMPLIFIED ML ANALYSIS COMPLETE
+2025-08-14 11:39:25,282 - INFO - ============================================================
+2025-08-14 11:39:25,282 - INFO - Analysis Summary:
+2025-08-14 11:39:25,282 - INFO -   - Volatility Models: 5 trained
+2025-08-14 11:39:25,282 - INFO -   - Strategy Signals: 5 generated
+2025-08-14 11:39:25,282 - INFO -   - Risk Analysis: 5 completed
+2025-08-14 11:39:25,282 - INFO - 
+Market Insights:
+2025-08-14 11:39:25,282 - INFO -   SPY: IV/RV = 6.14, Price = $644.89
+2025-08-14 11:39:25,282 - INFO -   QQQ: IV/RV = 4.57, Price = $580.34
+2025-08-14 11:39:25,282 - INFO -   AAPL: IV/RV = 5.86, Price = $233.33
+2025-08-14 11:39:25,282 - INFO -   MSFT: IV/RV = 7.60, Price = $520.58
+2025-08-14 11:39:25,282 - INFO -   NVDA: IV/RV = 8.70, Price = $181.59
+2025-08-14 11:39:25,282 - INFO - 
+Results saved to docs/data/results/simple_ml_results.json
+2025-08-14 11:39:25,282 - INFO - Ready for research paper generation and interactive dashboard!
