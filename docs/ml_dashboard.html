@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volatility Alchemist - ML Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+        }
+
+        .nav-tab {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.25rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .grid {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .metric-label {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 1rem 0;
+        }
+
+        .symbol-selector {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .symbol-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .symbol-btn:hover, .symbol-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .recommendations {
+            background: rgba(0, 255, 100, 0.1);
+            border-left: 4px solid #00ff64;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .recommendation-item {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        .confidence-high { border-left: 3px solid #00ff64; }
+        .confidence-medium { border-left: 3px solid #ffaa00; }
+        .confidence-low { border-left: 3px solid #ff6b6b; }
+
+        .model-comparison {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.7;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ffaaaa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧙‍♂️ Volatility Alchemist</h1>
+        <p>Machine Learning Options Analytics Dashboard</p>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="showTab('overview')">Market Overview</button>
+        <button class="nav-tab" onclick="showTab('models')">ML Models</button>
+        <button class="nav-tab" onclick="showTab('signals')">Strategy Signals</button>
+        <button class="nav-tab" onclick="showTab('risk')">Risk Analysis</button>
+        <button class="nav-tab" onclick="showTab('recommendations')">Recommendations</button>
+    </div>
+
+    <div class="container">
+        <!-- Market Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="symbol-selector">
+                <h3>Select Symbol:</h3>
+                <div id="symbol-buttons"></div>
+            </div>
+            
+            <div class="grid grid-4" id="market-metrics">
+                <!-- Market metrics will be populated here -->
+            </div>
+            
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>IV vs Realized Volatility</h3>
+                    <div class="chart-container">
+                        <canvas id="iv-rv-chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Price & Volume</h3>
+                    <div class="chart-container">
+                        <canvas id="price-volume-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ML Models Tab -->
+        <div id="models" class="tab-content">
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Model Performance Comparison</h3>
+                    <div class="chart-container">
+                        <canvas id="model-performance-chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Feature Importance</h3>
+                    <div class="chart-container">
+                        <canvas id="feature-importance-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card model-comparison">
+                <h3>Detailed Model Metrics</h3>
+                <div id="model-table"></div>
+            </div>
+        </div>
+
+        <!-- Strategy Signals Tab -->
+        <div id="signals" class="tab-content">
+            <div class="symbol-selector">
+                <h3>Strategy Signals by Symbol:</h3>
+                <div id="signals-symbol-buttons"></div>
+            </div>
+            
+            <div class="grid grid-3" id="signal-cards">
+                <!-- Signal cards will be populated here -->
+            </div>
+            
+            <div class="card">
+                <h3>Signal Strength Heatmap</h3>
+                <div class="chart-container">
+                    <canvas id="signal-heatmap"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Analysis Tab -->
+        <div id="risk" class="tab-content">
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Risk Metrics Comparison</h3>
+                    <div class="chart-container">
+                        <canvas id="risk-metrics-chart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Volatility Forecast</h3>
+                    <div class="chart-container">
+                        <canvas id="vol-forecast-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-3" id="risk-metrics">
+                <!-- Risk metrics will be populated here -->
+            </div>
+        </div>
+
+        <!-- Recommendations Tab -->
+        <div id="recommendations" class="tab-content">
+            <div class="symbol-selector">
+                <h3>Recommendations by Symbol:</h3>
+                <div id="rec-symbol-buttons"></div>
+            </div>
+            
+            <div id="recommendations-content">
+                <!-- Recommendations will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="loading" class="loading" style="display: none;">
+        <h3>Loading ML Analysis Results...</h3>
+        <p>Please wait while we process the data.</p>
+    </div>
+
+    <div id="error" class="error" style="display: none;">
+        <h3>Error Loading Data</h3>
+        <p id="error-message"></p>
+    </div>
+
+    <script>
+        // Global variables
+        let analysisData = null;
+        let currentSymbol = 'SPY';
+        let charts = {};
+
+        // Initialize the dashboard
+        async function initDashboard() {
+            showLoading();
+            try {
+                await loadAnalysisData();
+                hideLoading();
+                renderDashboard();
+            } catch (error) {
+                showError(`Failed to load analysis data: ${error.message}`);
+            }
+        }
+
+        // Load ML analysis results
+        async function loadAnalysisData() {
+            try {
+                const response = await fetch('data/results/simple_ml_results.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                analysisData = await response.json();
+                console.log('Loaded analysis data:', analysisData);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                throw error;
+            }
+        }
+
+        // Render the entire dashboard
+        function renderDashboard() {
+            if (!analysisData) return;
+            
+            renderSymbolButtons();
+            renderMarketOverview();
+            renderModelPerformance();
+            renderStrategySignals();
+            renderRiskAnalysis();
+            renderRecommendations();
+        }
+
+        // Render symbol selection buttons
+        function renderSymbolButtons() {
+            const symbols = Object.keys(analysisData.market_summary);
+            
+            // Overview tab buttons
+            const overviewButtons = document.getElementById('symbol-buttons');
+            overviewButtons.innerHTML = symbols.map(symbol => 
+                `<button class="symbol-btn ${symbol === currentSymbol ? 'active' : ''}" 
+                         onclick="selectSymbol('${symbol}')">${symbol}</button>`
+            ).join('');
+            
+            // Signals tab buttons
+            const signalsButtons = document.getElementById('signals-symbol-buttons');
+            signalsButtons.innerHTML = symbols.map(symbol => 
+                `<button class="symbol-btn ${symbol === currentSymbol ? 'active' : ''}" 
+                         onclick="selectSymbolForSignals('${symbol}')">${symbol}</button>`
+            ).join('');
+            
+            // Recommendations tab buttons
+            const recButtons = document.getElementById('rec-symbol-buttons');
+            recButtons.innerHTML = symbols.map(symbol => 
+                `<button class="symbol-btn ${symbol === currentSymbol ? 'active' : ''}" 
+                         onclick="selectSymbolForRec('${symbol}')">${symbol}</button>`
+            ).join('');
+        }
+
+        // Render market overview
+        function renderMarketOverview() {
+            const marketData = analysisData.market_summary[currentSymbol];
+            if (!marketData) return;
+            
+            const metricsContainer = document.getElementById('market-metrics');
+            metricsContainer.innerHTML = `
+                <div class="card metric-card">
+                    <div class="metric-label">Current Price</div>
+                    <div class="metric-value">$${marketData.current_price.toFixed(2)}</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">Realized Vol (20d)</div>
+                    <div class="metric-value">${(marketData.realized_volatility_20d * 100).toFixed(1)}%</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">Implied Vol (Avg)</div>
+                    <div class="metric-value">${(marketData.average_implied_volatility * 100).toFixed(1)}%</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-label">IV/RV Ratio</div>
+                    <div class="metric-value">${marketData.iv_realized_vol_ratio ? marketData.iv_realized_vol_ratio.toFixed(2) : 'N/A'}</div>
+                </div>
+            `;
+
+            // Render IV vs RV chart
+            renderIVRVChart();
+        }
+
+        // Render IV vs RV comparison chart
+        function renderIVRVChart() {
+            const ctx = document.getElementById('iv-rv-chart').getContext('2d');
+            
+            if (charts.ivRv) {
+                charts.ivRv.destroy();
+            }
+
+            const symbols = Object.keys(analysisData.market_summary);
+            const ivData = symbols.map(symbol => analysisData.market_summary[symbol].average_implied_volatility * 100);
+            const rvData = symbols.map(symbol => analysisData.market_summary[symbol].realized_volatility_20d * 100);
+
+            charts.ivRv = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: symbols,
+                    datasets: [{
+                        label: 'Implied Volatility (%)',
+                        data: ivData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Realized Volatility (%)',
+                        data: rvData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            ticks: { color: 'white' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: { 
+                            ticks: { color: 'white' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render model performance comparison
+        function renderModelPerformance() {
+            const ctx = document.getElementById('model-performance-chart').getContext('2d');
+            
+            if (charts.modelPerf) {
+                charts.modelPerf.destroy();
+            }
+
+            const symbols = Object.keys(analysisData.model_performance.volatility_models);
+            const rmseData = symbols.map(symbol => analysisData.model_performance.volatility_models[symbol].metrics.rmse);
+            const r2Data = symbols.map(symbol => analysisData.model_performance.volatility_models[symbol].metrics.r2);
+
+            charts.modelPerf = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: symbols,
+                    datasets: [{
+                        label: 'RMSE',
+                        data: rmseData,
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 2,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'R² Score',
+                        data: r2Data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            ticks: { color: 'white' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: { color: 'white' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            ticks: { color: 'white' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+
+            // Render model comparison table
+            renderModelTable();
+        }
+
+        // Render detailed model metrics table
+        function renderModelTable() {
+            const tableContainer = document.getElementById('model-table');
+            const models = analysisData.model_performance.volatility_models;
+            
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Model Type</th>
+                            <th>RMSE</th>
+                            <th>R² Score</th>
+                            <th>CV RMSE</th>
+                            <th>Samples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            Object.entries(models).forEach(([symbol, model]) => {
+                tableHTML += `
+                    <tr>
+                        <td><strong>${symbol}</strong></td>
+                        <td>${model.model_type}</td>
+                        <td>${model.metrics.rmse.toFixed(4)}</td>
+                        <td>${model.metrics.r2.toFixed(4)}</td>
+                        <td>${model.metrics.cv_rmse.toFixed(4)}</td>
+                        <td>${model.n_samples}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += '</tbody></table>';
+            tableContainer.innerHTML = tableHTML;
+        }
+
+        // Render strategy signals
+        function renderStrategySignals() {
+            renderSignalCards();
+        }
+
+        // Render signal cards for current symbol
+        function renderSignalCards() {
+            const signalsData = analysisData.model_performance.strategy_signals[currentSymbol];
+            if (!signalsData) return;
+            
+            const signalCards = document.getElementById('signal-cards');
+            const signals = signalsData.signals;
+            
+            let cardsHTML = '';
+            Object.entries(signals).forEach(([strategy, signal]) => {
+                const confidence = signal.confidence;
+                const confidenceClass = confidence > 0.6 ? 'confidence-high' : 
+                                      confidence > 0.4 ? 'confidence-medium' : 'confidence-low';
+                
+                cardsHTML += `
+                    <div class="card ${confidenceClass}">
+                        <h4>${strategy.replace('_', ' ').toUpperCase()}</h4>
+                        <div class="metric-value ${signal.signal ? 'signal-bullish' : 'signal-bearish'}">
+                            ${signal.signal ? 'BUY' : 'HOLD'}
+                        </div>
+                        <div class="metric-label">Confidence: ${(confidence * 100).toFixed(0)}%</div>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+                            ${signal.reason}
+                        </p>
+                    </div>
+                `;
+            });
+            
+            signalCards.innerHTML = cardsHTML;
+        }
+
+        // Render risk analysis
+        function renderRiskAnalysis() {
+            renderRiskMetrics();
+            renderVolForecast();
+        }
+
+        // Render risk metrics
+        function renderRiskMetrics() {
+            const riskContainer = document.getElementById('risk-metrics');
+            const symbols = Object.keys(analysisData.model_performance.risk_analysis);
+            
+            let metricsHTML = '';
+            symbols.forEach(symbol => {
+                const risk = analysisData.model_performance.risk_analysis[symbol];
+                const metrics = risk.current_metrics;
+                
+                metricsHTML += `
+                    <div class="card">
+                        <h4>${symbol} Risk Profile</h4>
+                        <div style="margin: 1rem 0;">
+                            <div><strong>Vol (20d):</strong> ${(metrics.volatility_20d * 100).toFixed(1)}%</div>
+                            <div><strong>VaR (95%):</strong> ${(metrics.var_95 * 100).toFixed(2)}%</div>
+                            <div><strong>Max Drawdown:</strong> ${(metrics.max_drawdown * 100).toFixed(2)}%</div>
+                            <div><strong>Sharpe Ratio:</strong> ${metrics.sharpe_ratio.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            riskContainer.innerHTML = metricsHTML;
+        }
+
+        // Render volatility forecast chart
+        function renderVolForecast() {
+            const ctx = document.getElementById('vol-forecast-chart').getContext('2d');
+            
+            if (charts.volForecast) {
+                charts.volForecast.destroy();
+            }
+
+            const symbols = Object.keys(analysisData.model_performance.risk_analysis);
+            const currentVol = symbols.map(symbol => 
+                analysisData.model_performance.risk_analysis[symbol].current_metrics.volatility_20d * 100
+            );
+            const forecastVol = symbols.map(symbol => 
+                analysisData.model_performance.risk_analysis[symbol].forecast.volatility_forecast_5d * 100
+            );
+
+            charts.volForecast = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: symbols,
+                    datasets: [{
+                        label: 'Current Volatility (%)',
+                        data: currentVol,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        pointBackgroundColor: 'rgba(255, 99, 132, 1)'
+                    }, {
+                        label: 'Forecasted Volatility (%)',
+                        data: forecastVol,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            pointLabels: { color: 'white' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: 'white' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Render recommendations
+        function renderRecommendations() {
+            const recommendationsData = analysisData.trading_recommendations[currentSymbol];
+            const container = document.getElementById('recommendations-content');
+            
+            if (!recommendationsData || recommendationsData.length === 0) {
+                container.innerHTML = `
+                    <div class="card">
+                        <h3>No specific recommendations for ${currentSymbol}</h3>
+                        <p>Market conditions don't strongly favor any particular strategy at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let recHTML = `<div class="card"><h3>Trading Recommendations for ${currentSymbol}</h3>`;
+            
+            recommendationsData.forEach(rec => {
+                const confidenceClass = rec.confidence === 'high' ? 'confidence-high' : 
+                                      rec.confidence === 'medium' ? 'confidence-medium' : 'confidence-low';
+                
+                recHTML += `
+                    <div class="recommendation-item ${confidenceClass}">
+                        <h4>${rec.strategy}</h4>
+                        <p><strong>Rationale:</strong> ${rec.reason}</p>
+                        <p><strong>Confidence:</strong> ${rec.confidence.toUpperCase()}</p>
+                    </div>
+                `;
+            });
+            
+            recHTML += '</div>';
+            container.innerHTML = recHTML;
+        }
+
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab and add active class to nav tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Symbol selection functions
+        function selectSymbol(symbol) {
+            currentSymbol = symbol;
+            document.querySelectorAll('#symbol-buttons .symbol-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderMarketOverview();
+        }
+
+        function selectSymbolForSignals(symbol) {
+            currentSymbol = symbol;
+            document.querySelectorAll('#signals-symbol-buttons .symbol-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderSignalCards();
+        }
+
+        function selectSymbolForRec(symbol) {
+            currentSymbol = symbol;
+            document.querySelectorAll('#rec-symbol-buttons .symbol-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderRecommendations();
+        }
+
+        // Loading and error functions
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</body>
+</html>

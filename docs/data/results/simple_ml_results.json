@@ -1,0 +1,441 @@
+{
+  "analysis_timestamp": "2025-08-14T11:39:25.281536",
+  "model_performance": {
+    "volatility_models": {
+      "SPY": {
+        "metrics": {
+          "rmse": 0.11334705174554176,
+          "r2": 0.9707826850624465,
+          "cv_rmse": 0.3098838641930814
+        },
+        "feature_importance": {
+          "Moneyness": 0.4454035143045528,
+          "LogMoneyness": 0.4766580610048177,
+          "TimeToExpiry": 0.0,
+          "Volume": 0.07793842469062953,
+          "MarketVol": 0.0,
+          "MarketReturn": 0.0
+        },
+        "model_type": "RandomForest",
+        "n_samples": 149,
+        "n_features": 6
+      },
+      "QQQ": {
+        "metrics": {
+          "rmse": 0.1144037372470953,
+          "r2": 0.8954310800379582,
+          "cv_rmse": 0.39797602550977024
+        },
+        "feature_importance": {
+          "Moneyness": 0.3838900491668482,
+          "LogMoneyness": 0.37790515434258315,
+          "TimeToExpiry": 0.0,
+          "Volume": 0.23820479649056878,
+          "MarketVol": 0.0,
+          "MarketReturn": 0.0
+        },
+        "model_type": "RandomForest",
+        "n_samples": 135,
+        "n_features": 6
+      },
+      "AAPL": {
+        "metrics": {
+          "rmse": 1.548696910770964,
+          "r2": 0.4249407241985985,
+          "cv_rmse": 1.7879085179492744
+        },
+        "feature_importance": {
+          "Moneyness": 0.4084089173675377,
+          "LogMoneyness": 0.3665557177896702,
+          "TimeToExpiry": 0.0,
+          "Volume": 0.22503536484279216,
+          "MarketVol": 0.0,
+          "MarketReturn": 0.0
+        },
+        "model_type": "RandomForest",
+        "n_samples": 127,
+        "n_features": 6
+      },
+      "MSFT": {
+        "metrics": {
+          "rmse": 1.809404780704087,
+          "r2": 0.2048488168656324,
+          "cv_rmse": 1.7651934331354862
+        },
+        "feature_importance": {
+          "Moneyness": 0.4610066511830187,
+          "LogMoneyness": 0.445076622852772,
+          "TimeToExpiry": 0.0,
+          "Volume": 0.09391672596420929,
+          "MarketVol": 0.0,
+          "MarketReturn": 0.0
+        },
+        "model_type": "RandomForest",
+        "n_samples": 219,
+        "n_features": 6
+      },
+      "NVDA": {
+        "metrics": {
+          "rmse": 0.4766527066006786,
+          "r2": 0.9062158108431452,
+          "cv_rmse": 1.5344664317773322
+        },
+        "feature_importance": {
+          "Moneyness": 0.42416533446865995,
+          "LogMoneyness": 0.47310910826782115,
+          "TimeToExpiry": 0.0,
+          "Volume": 0.10272555726351883,
+          "MarketVol": 0.0,
+          "MarketReturn": 0.0
+        },
+        "model_type": "RandomForest",
+        "n_samples": 154,
+        "n_features": 6
+      }
+    },
+    "strategy_signals": {
+      "SPY": {
+        "signals": {
+          "straddle": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "IV vs RV ratio and RSI conditions"
+          },
+          "covered_call": {
+            "signal": 1,
+            "confidence": 0.6,
+            "reason": "Low volatility and moderate RSI"
+          },
+          "iron_condor": {
+            "signal": 0,
+            "confidence": 0.35,
+            "reason": "High IV vs RV ratio and neutral RSI"
+          }
+        },
+        "market_conditions": {
+          "current_price": 644.8900146484375,
+          "realized_vol": 0.10770007928741153,
+          "implied_vol": 0.6610467609584733,
+          "rsi": 60.222615005238204,
+          "iv_rv_ratio": 6.137848415082266
+        }
+      },
+      "QQQ": {
+        "signals": {
+          "straddle": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "IV vs RV ratio and RSI conditions"
+          },
+          "covered_call": {
+            "signal": 1,
+            "confidence": 0.6,
+            "reason": "Low volatility and moderate RSI"
+          },
+          "iron_condor": {
+            "signal": 0,
+            "confidence": 0.35,
+            "reason": "High IV vs RV ratio and neutral RSI"
+          }
+        },
+        "market_conditions": {
+          "current_price": 580.3400268554688,
+          "realized_vol": 0.13164582184521098,
+          "implied_vol": 0.6020370242422598,
+          "rsi": 63.583217330828326,
+          "iv_rv_ratio": 4.573157095332158
+        }
+      },
+      "AAPL": {
+        "signals": {
+          "straddle": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "IV vs RV ratio and RSI conditions"
+          },
+          "covered_call": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "Low volatility and moderate RSI"
+          },
+          "iron_condor": {
+            "signal": 0,
+            "confidence": 0.35,
+            "reason": "High IV vs RV ratio and neutral RSI"
+          }
+        },
+        "market_conditions": {
+          "current_price": 233.3300018310547,
+          "realized_vol": 0.2909724416775561,
+          "implied_vol": 1.7052086224989997,
+          "rsi": 70.72203902587562,
+          "iv_rv_ratio": 5.8603784353868225
+        }
+      },
+      "MSFT": {
+        "signals": {
+          "straddle": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "IV vs RV ratio and RSI conditions"
+          },
+          "covered_call": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "Low volatility and moderate RSI"
+          },
+          "iron_condor": {
+            "signal": 1,
+            "confidence": 0.65,
+            "reason": "High IV vs RV ratio and neutral RSI"
+          }
+        },
+        "market_conditions": {
+          "current_price": 520.5800170898438,
+          "realized_vol": 0.21451584985819414,
+          "implied_vol": 1.6299893347171455,
+          "rsi": 56.18939610499365,
+          "iv_rv_ratio": 7.598456411470999
+        }
+      },
+      "NVDA": {
+        "signals": {
+          "straddle": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "IV vs RV ratio and RSI conditions"
+          },
+          "covered_call": {
+            "signal": 0,
+            "confidence": 0.3,
+            "reason": "Low volatility and moderate RSI"
+          },
+          "iron_condor": {
+            "signal": 0,
+            "confidence": 0.35,
+            "reason": "High IV vs RV ratio and neutral RSI"
+          }
+        },
+        "market_conditions": {
+          "current_price": 181.58999633789065,
+          "realized_vol": 0.24717700060922965,
+          "implied_vol": 2.1507395623224426,
+          "rsi": 63.16668807978588,
+          "iv_rv_ratio": 8.701212317575688
+        }
+      }
+    },
+    "risk_analysis": {
+      "SPY": {
+        "current_metrics": {
+          "volatility_20d": 0.10770007928741153,
+          "volatility_60d": 0.1080157469224884,
+          "var_95": -0.014691180474011523,
+          "expected_shortfall_95": -0.022982881546538252,
+          "max_drawdown": -0.18755235977747342,
+          "sharpe_ratio": 1.2847036971609305
+        },
+        "forecast": {
+          "volatility_forecast_5d": 0.10985408087315963,
+          "confidence_interval": [
+            0.08788326469852771,
+            0.13182489704779154
+          ],
+          "forecast_date": "2025-08-14T11:39:25.279572",
+          "horizon_days": 5
+        }
+      },
+      "QQQ": {
+        "current_metrics": {
+          "volatility_20d": 0.13164582184521098,
+          "volatility_60d": 0.12581478247694164,
+          "var_95": -0.020689113443288387,
+          "expected_shortfall_95": -0.0299597423621815,
+          "max_drawdown": -0.22768303549553837,
+          "sharpe_ratio": 1.209269293013253
+        },
+        "forecast": {
+          "volatility_forecast_5d": 0.13427873828211487,
+          "confidence_interval": [
+            0.1074229906256919,
+            0.16113448593853782
+          ],
+          "forecast_date": "2025-08-14T11:39:25.280117",
+          "horizon_days": 5
+        }
+      },
+      "AAPL": {
+        "current_metrics": {
+          "volatility_20d": 0.2909724416775561,
+          "volatility_60d": 0.23499215794772665,
+          "var_95": -0.027040185366615455,
+          "expected_shortfall_95": -0.038768585382534346,
+          "max_drawdown": -0.3336051616882113,
+          "sharpe_ratio": 0.6412796233381709
+        },
+        "forecast": {
+          "volatility_forecast_5d": 0.29679189051110755,
+          "confidence_interval": [
+            0.23743351240888605,
+            0.35615026861332905
+          ],
+          "forecast_date": "2025-08-14T11:39:25.280598",
+          "horizon_days": 5
+        }
+      },
+      "MSFT": {
+        "current_metrics": {
+          "volatility_20d": 0.21451584985819414,
+          "volatility_60d": 0.1591545689799008,
+          "var_95": -0.022333201693136462,
+          "expected_shortfall_95": -0.031397072570114,
+          "max_drawdown": -0.23726644477525421,
+          "sharpe_ratio": 1.2135417291080561
+        },
+        "forecast": {
+          "volatility_forecast_5d": 0.21880616685535798,
+          "confidence_interval": [
+            0.1750449334842864,
+            0.26256740022642955
+          ],
+          "forecast_date": "2025-08-14T11:39:25.281052",
+          "horizon_days": 5
+        }
+      },
+      "NVDA": {
+        "current_metrics": {
+          "volatility_20d": 0.24717700060922965,
+          "volatility_60d": 0.26626980601976474,
+          "var_95": -0.046794629600787174,
+          "expected_shortfall_95": -0.06972197715192954,
+          "max_drawdown": -0.3688102584874189,
+          "sharpe_ratio": 1.6419380355236677
+        },
+        "forecast": {
+          "volatility_forecast_5d": 0.25212054062141304,
+          "confidence_interval": [
+            0.20169643249713043,
+            0.30254464874569564
+          ],
+          "forecast_date": "2025-08-14T11:39:25.281493",
+          "horizon_days": 5
+        }
+      }
+    }
+  },
+  "market_summary": {
+    "SPY": {
+      "current_price": 644.8900146484375,
+      "realized_volatility_20d": 0.10770007928741153,
+      "average_implied_volatility": 0.6610467609584733,
+      "iv_realized_vol_ratio": 6.137848415082266,
+      "options_count": 149,
+      "strike_range": {
+        "min": 400.0,
+        "max": 715.0
+      }
+    },
+    "QQQ": {
+      "current_price": 580.3400268554688,
+      "realized_volatility_20d": 0.13164582184521098,
+      "average_implied_volatility": 0.6020370242422598,
+      "iv_realized_vol_ratio": 4.573157095332158,
+      "options_count": 135,
+      "strike_range": {
+        "min": 450.0,
+        "max": 635.0
+      }
+    },
+    "AAPL": {
+      "current_price": 233.3300018310547,
+      "realized_volatility_20d": 0.2909724416775561,
+      "average_implied_volatility": 1.7052086224989997,
+      "iv_realized_vol_ratio": 5.8603784353868225,
+      "options_count": 127,
+      "strike_range": {
+        "min": 90.0,
+        "max": 390.0
+      }
+    },
+    "MSFT": {
+      "current_price": 520.5800170898438,
+      "realized_volatility_20d": 0.21451584985819414,
+      "average_implied_volatility": 1.6299893347171455,
+      "iv_realized_vol_ratio": 7.598456411470999,
+      "options_count": 219,
+      "strike_range": {
+        "min": 180.0,
+        "max": 660.0
+      }
+    },
+    "NVDA": {
+      "current_price": 181.58999633789065,
+      "realized_volatility_20d": 0.24717700060922965,
+      "average_implied_volatility": 2.1507395623224426,
+      "iv_realized_vol_ratio": 8.701212317575688,
+      "options_count": 154,
+      "strike_range": {
+        "min": 20.0,
+        "max": 365.0
+      }
+    }
+  },
+  "model_comparison": {
+    "best_volatility_model": {
+      "symbol": "SPY",
+      "rmse": 0.11334705174554176
+    }
+  },
+  "trading_recommendations": {
+    "SPY": [
+      {
+        "strategy": "Short volatility strategies (Iron Condor, Covered Call)",
+        "reason": "IV/RV ratio of 6.14 suggests overpriced options",
+        "confidence": "medium"
+      },
+      {
+        "strategy": "Covered Call",
+        "reason": "Low volatility and moderate RSI",
+        "confidence": "0.60"
+      }
+    ],
+    "QQQ": [
+      {
+        "strategy": "Short volatility strategies (Iron Condor, Covered Call)",
+        "reason": "IV/RV ratio of 4.57 suggests overpriced options",
+        "confidence": "medium"
+      },
+      {
+        "strategy": "Covered Call",
+        "reason": "Low volatility and moderate RSI",
+        "confidence": "0.60"
+      }
+    ],
+    "AAPL": [
+      {
+        "strategy": "Short volatility strategies (Iron Condor, Covered Call)",
+        "reason": "IV/RV ratio of 5.86 suggests overpriced options",
+        "confidence": "medium"
+      }
+    ],
+    "MSFT": [
+      {
+        "strategy": "Short volatility strategies (Iron Condor, Covered Call)",
+        "reason": "IV/RV ratio of 7.60 suggests overpriced options",
+        "confidence": "medium"
+      },
+      {
+        "strategy": "Iron Condor",
+        "reason": "High IV vs RV ratio and neutral RSI",
+        "confidence": "0.65"
+      }
+    ],
+    "NVDA": [
+      {
+        "strategy": "Short volatility strategies (Iron Condor, Covered Call)",
+        "reason": "IV/RV ratio of 8.70 suggests overpriced options",
+        "confidence": "medium"
+      }
+    ]
+  }
+}
