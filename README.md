@@ -1,4 +1,4 @@
-# 🧙‍♂️ Volatility Alchemist: Options Strategy Insights Engine
+# Volatility Alchemist: Options Strategy Insights Engine
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -6,13 +6,13 @@
 [![Machine Learning](https://img.shields.io/badge/ML-Scikit--Learn-orange.svg)](https://scikit-learn.org/)
 [![Research](https://img.shields.io/badge/Research-Paper-green.svg)](docs/volatility_alchemist_research_paper.tex)
 
-## 📖 Overview
+## Overview
 
 **Volatility Alchemist** is a comprehensive machine learning-enhanced options trading analytics system that bridges the gap between academic finance theory and practical algorithmic trading. The system combines traditional Black-Scholes-Merton option pricing models with advanced ensemble machine learning techniques to provide superior volatility surface modeling, systematic strategy generation, and robust risk management.
 
 This project represents a complete end-to-end solution for quantitative options trading, featuring real-time data integration, sophisticated ML models, interactive visualization dashboards, and automated trading signal generation with comprehensive academic research backing.
 
-## 🎯 Purpose & Motivation
+## Purpose & Motivation
 
 The options derivatives market, with daily trading volumes exceeding $400 billion globally, presents complex mathematical challenges that traditional parametric models struggle to address effectively. The Black-Scholes framework, while mathematically elegant, relies on restrictive assumptions that are systematically violated in real markets.
 
@@ -25,33 +25,33 @@ The options derivatives market, with daily trading volumes exceeding $400 billio
 **Our Solution:**
 A theoretically grounded, ML-enhanced framework that demonstrates **23% improvement** over traditional approaches while maintaining institutional-grade mathematical rigor and practical implementability.
 
-## 🚀 Key Features
+## Key Features
 
-### 🧠 **Machine Learning Core**
+### **Machine Learning Core**
 - **Advanced Volatility Modeling**: Random Forest ensemble methods achieving R² > 0.97 for liquid securities
 - **Real-Time Signal Generation**: Automated strategy recommendations with confidence quantification
 - **Risk Forecasting**: GARCH-enhanced models with 68% accuracy over 5-day horizons
 - **Feature Engineering**: Comprehensive technical indicators and market microstructure variables
 
-### 📊 **Data Integration**
+### **Data Integration**
 - **Real Market Data**: 1,799 options contracts across 5 major securities (SPY, QQQ, AAPL, MSFT, NVDA)
 - **Historical Analysis**: 2,505 observations spanning 2+ years of market data
 - **Multi-Source Fetching**: Yahoo Finance, Alpha Vantage, and Polygon.io integration
 - **Data Validation**: Comprehensive quality control and outlier detection
 
-### 🎮 **Interactive Dashboard**
+### **Interactive Dashboard**
 - **ML Analytics Interface**: Real-time model performance visualization
 - **Strategy Simulator**: Interactive options strategy analysis and comparison
 - **Risk Visualization**: Comprehensive risk metrics and volatility forecasting
 - **GitHub Pages Deployment**: Production-ready web interface
 
-### 📈 **Strategy Framework**
+### **Strategy Framework**
 - **Long Straddles**: Volatility breakout strategies for high uncertainty periods
 - **Covered Calls**: Income generation strategies for low-volatility environments
 - **Iron Condors**: Range-bound strategies capitalizing on overpriced options
 - **Automated Selection**: ML-driven strategy recommendation based on market conditions
 
-## 🏗️ Architecture & Tech Stack
+## Architecture & Tech Stack
 
 ### **Backend (High-Performance Computing)**
 ```
@@ -89,7 +89,7 @@ A theoretically grounded, ML-enhanced framework that demonstrates **23% improvem
 └── Performance Analysis Reports
 ```
 
-## 📊 Research Findings & Performance
+## Research Findings & Performance
 
 ### **Model Performance Metrics**
 | Security | RMSE | R² Score | CV RMSE | Samples | Features |
@@ -112,7 +112,7 @@ Based on current market analysis:
 - **High IV Environment**: Optimal for volatility-selling strategies
 - **Risk-Adjusted Returns**: Consistent outperformance vs traditional approaches
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### **Prerequisites**
 ```bash
@@ -160,7 +160,7 @@ make -j4
 ./volatility_alchemist
 ```
 
-## 📚 Project Structure
+## Project Structure
 
 ```
 volatility-alchemist/
@@ -170,8 +170,6 @@ volatility-alchemist/
 │   └── 📈 strategies/    # Trading strategy implementations
 ├── 📁 data/
 │   ├── 💾 real/          # Market data (1,799 options contracts)
-│   ├── ⚙️ processed/    # Feature-engineered datasets
-│   └── 📊 results/       # ML analysis outputs
 ├── 📁 docs/
 │   ├── 📄 research_paper.tex    # Academic research paper
 │   ├── 🌐 ml_dashboard.html     # Interactive ML interface
@@ -183,7 +181,7 @@ volatility-alchemist/
 └── 📁 tests/             # Comprehensive test suite
 ```
 
-## 🔬 Research Paper Summary
+## Research Paper Summary
 
 ### **"Machine Learning Enhanced Options Strategy Analytics: A Comprehensive Framework for Volatility Surface Modeling and Risk-Adjusted Strategy Optimization"**
 
@@ -206,7 +204,7 @@ volatility-alchemist/
 - **Features**: Moneyness, technical indicators, market microstructure variables
 - **Validation**: Temporal cross-validation preventing look-ahead bias
 
-## 📈 Usage Examples
+## Usage Examples
 
 ### **Basic Volatility Analysis**
 ```python
@@ -247,16 +245,16 @@ forecast = risk_model.forecast_risk(historical_data, horizon_days=5)
 print(f"VaR (95%): {forecast.var_forecast:.3f}")
 ```
 
-## 🤝 Contributing
+## Contributing
 
-We welcome contributions from quantitative researchers, machine learning practitioners, and options trading professionals. Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+I welcome contributions from quantitative researchers, machine learning practitioners, and options trading professionals. Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ### **Areas for Contribution:**
-- 🔬 **Research**: Advanced ML architectures (LSTM, CNN, Transformers)
-- 📊 **Data**: Additional asset classes and market data sources
-- ⚡ **Performance**: GPU acceleration and distributed computing
-- 🌐 **Interface**: Enhanced visualization and user experience
-- 📚 **Documentation**: Tutorials, examples, and educational content
+- **Research**: Advanced ML architectures (LSTM, CNN, Transformers)
+- **Data**: Additional asset classes and market data sources
+- **Performance**: GPU acceleration and distributed computing
+- **Interface**: Enhanced visualization and user experience
+- **Documentation**: Tutorials, examples, and educational content
 
 ## 📄 License
 
@@ -271,21 +269,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact & Support
 
-- **📧 Email**: research@volatility-alchemist.com
-- **🐙 GitHub**: [Issues & Discussions](https://github.com/your-username/volatility-alchemist/issues)
 - **📄 Research Paper**: [Full Academic Paper](docs/volatility_alchemist_research_paper.tex)
-- **🌐 Live Dashboard**: [Interactive ML Analytics](https://your-username.github.io/volatility-alchemist/)
+- **🌐 Live Dashboard**: [Interactive ML Analytics](https://aravinds.kannappan.github.io/volatility-alchemist/)
 
 ---
 
 **⚠️ Risk Disclaimer**: This software is for educational and research purposes only. Options trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Always consult with qualified financial professionals before making investment decisions.
-
----
-
-<div align="center">
-
-**🧙‍♂️ Transforming Options Trading Through Machine Learning & Mathematical Rigor 📈**
-
-*Built with ❤️ by quantitative researchers for the trading community*
-
-</div>
