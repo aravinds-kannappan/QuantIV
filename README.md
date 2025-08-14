@@ -267,11 +267,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Data Providers**: Yahoo Finance, Alpha Vantage, Polygon.io
 - **Research Inspiration**: Quantitative finance and machine learning communities
 
-## 📞 Contact & Support
-
-- **📄 Research Paper**: [Full Academic Paper](docs/volatility_alchemist_research_paper.tex)
-- **🌐 Live Dashboard**: [Interactive ML Analytics](https://aravinds.kannappan.github.io/volatility-alchemist/)
-
 ---
 
 **⚠️ Risk Disclaimer**: This software is for educational and research purposes only. Options trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Always consult with qualified financial professionals before making investment decisions.
