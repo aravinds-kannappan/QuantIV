@@ -4,7 +4,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![C++](https://img.shields.io/badge/C++-17+-00599C.svg)](https://isocpp.org/)
 [![Machine Learning](https://img.shields.io/badge/ML-Scikit--Learn-orange.svg)](https://scikit-learn.org/)
-[![Research](https://img.shields.io/badge/Research-Paper-green.svg)](Paper_Volatility_Alchemist.pdf)
+[![Research](https://img.shields.io/badge/Research-Paper-green.svg)](Volatility_Alchemist_Paper.pdf)
 
 ## Overview
 
